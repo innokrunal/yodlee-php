@@ -1,28 +1,25 @@
 {
     "name": "innokrunal/yodlee-php",
-    "type": "library",
+    "description": "Yodlee API SDK for PHP",
+    "license": "MIT",
+    "support": {
+        "source": "https://github.com/innokrunal/yodlee-php"
+    },
     "authors": [
         {
             "name": "Krunal Palaniya",
             "email": "krunal.p@innovify.in"
         }
     ],
-    "description": "A client implementation of the Yodlee API.",
-    "homepage": "https://github.com/innokrunal/yodlee-php",
-    "license": "MIT",
-
     "require": {
-        "php": ">=7.1.0",
-        "ext-curl": "*",
-        "ext-openssl": "*"
+        "php": ">=5.5.9"
     },
-
-    "repositories": [
-    ],
-
+    "require-dev": {
+        "vlucas/phpdotenv": "~2.2"
+    },
     "autoload": {
         "psr-4": {
-            "YodleePHP\\": "src/"
+            "YodleePhp\\": "src/"
         }
     }
 }
