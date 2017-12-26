@@ -1,6 +1,5 @@
 {
     "name": "innokrunal/yodlee-php",
-    "description": "Yodlee PHP APIs",
     "type": "library",
     "authors": [
         {
@@ -8,5 +7,22 @@
             "email": "krunal.p@innovify.in"
         }
     ],
-    "require": {}
+    "description": "A client implementation of the Yodlee API.",
+    "homepage": "https://github.com/innokrunal/yodlee-php",
+    "license": "MIT",
+
+    "require": {
+        "php": ">=7.1.0",
+        "ext-curl": "*",
+        "ext-openssl": "*"
+    },
+
+    "repositories": [
+    ],
+
+    "autoload": {
+        "psr-4": {
+            "YodleePHP\\": "src/"
+        }
+    }
 }
