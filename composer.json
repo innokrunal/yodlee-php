@@ -1,0 +1,12 @@
+{
+    "name": "innokrunal/yodlee-php",
+    "description": "Yodlee PHP APIs",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Krunal Palaniya",
+            "email": "krunal.p@innovify.in"
+        }
+    ],
+    "require": {}
+}
