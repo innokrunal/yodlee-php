@@ -2,14 +2,13 @@
 
 namespace YodleePhp\Api;
 
+use YodleePhp\Util\Utils;
+use YodleePhp\Util\CurlUtils;
+
 /*
-  This class provides client library to invoke Yodlee's Account APIs and perform utility operations like parsing
-  JSON response from Yodlee API.
-  Various operations are
-
- *   getAccounts
- *   parseAccounts
-
+ * This class provides client library to invoke Yodlee's Account APIs and perform utility operations like parsing   JSON response from Yodlee API.  Various operations are
+ * getAccounts
+ * parseAccounts
  */
 
 class Account {
@@ -17,12 +16,12 @@ class Account {
     const fq_name = "yodlee.api.accounts.Account";
 
     /*
-      This operation internally invokes CURL utility to call getAccounts API.
-      Params expected in input :
-      apiUrl, cobrandSessionToken, userSessionToken, query details like $id,$container
+     *  This operation internally invokes CURL utility to call getAccounts API.
+     *  Params expected in input :
+     *      apiUrl, cobrandSessionToken, userSessionToken, query details like $id,$container
      */
 
-    function getAccounts($url, $cobSession, $userSession, $id, $container) {
+    public function getAccounts($url, $cobSession, $userSession, $id, $container) {
         $request = $url;
         $queryArgs = array();
         if (!empty($id)) {
@@ -40,14 +39,14 @@ class Account {
     }
 
     /*
-      This operation internally invokes CURL utility to call getHistoricalBalances API.
-      Params expected in input :
-      apiUrl, cobrandSessionToken, userSessionToken, query details like
-      $accountId,$includeCF,$fromDate,$toDate,$interval,$skip,$top
-
+     *  This operation internally invokes CURL utility to call getHistoricalBalances API.
+     *  Params expected in input :
+     *      apiUrl, cobrandSessionToken, userSessionToken, query details like
+     *      $accountId,$includeCF,$fromDate,$toDate,$interval,$skip,$top
+     * 
      */
 
-    function getHistoricalBalances($url, $cobSession, $userSession, $accountId, $includeCF, $fromDate, $toDate, $interval, $skip, $top) {
+    public function getHistoricalBalances($url, $cobSession, $userSession, $accountId, $includeCF, $fromDate, $toDate, $interval, $skip, $top) {
         $request = $url;
         $queryArgs = array();
 
@@ -81,10 +80,9 @@ class Account {
 
         $responseObj = CurlUtils::httpGet($request, $cobSession, $userSession);
         return $responseObj;
-        //return $response["response"];
     }
 
-    function getPlan($url, $cobSession, $userSession, $queryArgs) {
+    public function getPlan($url, $cobSession, $userSession, $queryArgs) {
         $request = $url;
 
         if (!empty($queryArgs) && count($queryArgs) > 0)
@@ -92,10 +90,9 @@ class Account {
 
         $responseObj = CurlUtils::httpGet($request, $cobSession, $userSession);
         return $responseObj;
-        //return $response["response"];
     }
 
-    function updateAccount($url, $cobSession, $userSession, $accountId, $status) {
+    public function updateAccount($url, $cobSession, $userSession, $accountId, $status) {
         $request = $url;
         $queryArgs = array();
 
@@ -115,11 +112,11 @@ class Account {
     }
 
     /*
-      Utility Method to parse accountsAPI response JSON and return array of accounts with valid key(attributes)->value pairs.
-      Expected Input is response object from accounts api.
+     *  Utility Method to parse accountsAPI response JSON and return array of accounts with valid key(attributes)->value pairs.
+     *  Expected Input is response object from accounts api.
      */
 
-    function parseAccounts($responseObj) {
+    public function parseAccounts($responseObj) {
         $accountArr = array();
         $allAccounts = $responseObj["body"];
         $allAccountsObj = Utils::parseJson($allAccounts);

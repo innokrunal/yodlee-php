@@ -2,21 +2,22 @@
 
 namespace YodleePhp\Api;
 
+use YodleePhp\Util\Utils;
+use YodleePhp\Util\CurlUtils;
+
 /*
-
-  This class provides client library to invoke Yodlee's Provider APIs and perform utility operations like parsing
-  JSON response from Yodlee API.
-  Various operations are
-
- *   searchprovider
- *   getProviderDetails
- *   addAccountForProvider
- *   parseProviders
- *   parseProviderDetails
- *   getLoginFormForProvider
- *   populateLoginFormForProvider
- *   getRefreshStatus
-
+ *
+ *  This class provides client library to invoke Yodlee's Provider APIs and perform utility operations like parsing
+ *  JSON response from Yodlee API.
+ *  Various operations are
+ *      searchprovider
+ *      getProviderDetails
+ *      addAccountForProvider
+ *      parseProviders
+ *      parseProviderDetails
+ *      getLoginFormForProvider
+ *      populateLoginFormForProvider
+ *      getRefreshStatus
  */
 
 class Provider {
@@ -24,12 +25,12 @@ class Provider {
     const fq_name = "yodlee.api.provider.Provider";
 
     /*
-      This operation internally invokes CURL utility to call search provider API.
-      Params expected in input :
-      apiUrl, cobrandSessionToken, userSessionToken, query details like priroity and name.
+     *  This operation internally invokes CURL utility to call search provider API.
+     *  Params expected in input :
+     *  apiUrl, cobrandSessionToken, userSessionToken, query details like priroity and name.
      */
 
-    function searchProvider($url, $cobSession, $userSession, $queryArgs) {
+    public function searchProvider($url, $cobSession, $userSession, $queryArgs) {
         $request = $url;
         if (count($queryArgs) > 0)
             $request = $request . '?' . http_build_query($queryArgs, '', '&');
@@ -39,12 +40,12 @@ class Provider {
     }
 
     /*
-      This operation  internally invokes CURL utility to call provider details API.
-      Params expected in input :
-      apiUrl, cobrandSessionToken, userSessionToken, query details like providerId.
+     *  This operation  internally invokes CURL utility to call provider details API.
+     *  Params expected in input :
+     *  apiUrl, cobrandSessionToken, userSessionToken, query details like providerId.
      */
 
-    function getProviderDetails($url, $cobSession, $userSession, $providerId) {
+    public function getProviderDetails($url, $cobSession, $userSession, $providerId) {
         $request = $url;
         $postargs = null;
         $request = $request . $providerId;
@@ -53,20 +54,18 @@ class Provider {
     }
 
     /*
-      This operation  internally invokes CURL utility to call add account API.
-      Params expected in input :
-      apiUrl, cobrandSessionToken, userSessionToken, query details like providerId,providerParam.
+     *This operation  internally invokes CURL utility to call add account API.
+     *Params expected in input :
+     *apiUrl, cobrandSessionToken, userSessionToken, query details like providerId,providerParam.
      */
 
-    function addAccountForProvider($url, $cobSession, $userSession, $providerId, $providerParam) {
-        //$postargs = array('providerParam'=>$providerParam);
+    public function addAccountForProvider($url, $cobSession, $userSession, $providerId, $providerParam) {
         $request = $url . $providerId;
         $response = CurlUtils::httpPostSetContentType($request, $providerParam, $cobSession, $userSession);
         return $response;
     }
 
-    function addAccountForProviderNewVersion($url, $cobSession, $userSession, $providerId, $providerParam) {
-        //$postargs = array('providerParam'=>$providerParam);
+    public function addAccountForProviderNewVersion($url, $cobSession, $userSession, $providerId, $providerParam) {
         $queryArgs = array(); {
             $queryArgs['providerId'] = $providerId;
         }
@@ -79,13 +78,12 @@ class Provider {
     }
 
     /*
-      This operation  internally invokes CURL utility to call add account API.
-      Params expected in input :
-      apiUrl, cobrandSessionToken, userSessionToken, query details like providerId,providerParam.
+     *  This operation  internally invokes CURL utility to call add account API.
+     *  Params expected in input :
+     *  apiUrl, cobrandSessionToken, userSessionToken, query details like providerId,providerParam.
      */
 
-    function postMFAChallenge($url, $cobSession, $userSession, $providerAccountId, $mfaChallenge) {
-        //$postargs = array('providerParam'=>$providerParam);
+    public function postMFAChallenge($url, $cobSession, $userSession, $providerAccountId, $mfaChallenge) {
         $queryArgs = array();
         if (!empty($mfaChallenge)) {
             $queryArgs['MFAChallenge'] = $mfaChallenge;
@@ -98,8 +96,7 @@ class Provider {
         return $responseObj;
     }
 
-    function postMFAChallengeNewVersion($url, $cobSession, $userSession, $providerAccountId, $mfaChallenge) {
-        //$postargs = array('providerParam'=>$providerParam);
+    public function postMFAChallengeNewVersion($url, $cobSession, $userSession, $providerAccountId, $mfaChallenge) {
         $queryArgs = array();
         if (!empty($providerAccountId)) {
             $queryArgs['providerAccountIds'] = $providerAccountId;
@@ -113,20 +110,20 @@ class Provider {
     }
 
     /*
-      Utility Method to parse Provider JSON
+     *Utility Method to parse Provider JSON
      */
 
-    function parseProviders($responseObj) {
+    public function parseProviders($responseObj) {
         $providers = $responseObj["body"];
         $providerArr = Utils::parseJson($providers);
         return $providerArr;
     }
 
     /*
-      Utility Method to parse Provider Details JSON
+     *Utility Method to parse Provider Details JSON
      */
 
-    function parseProviderDetails($responseObj) {
+    public function parseProviderDetails($responseObj) {
         $provider = $responseObj["body"];
         $providerObj = Utils::parseJson($provider);
         $providerDetails = $providerObj['provider'];
@@ -134,18 +131,18 @@ class Provider {
     }
 
     /*
-      Utility Method to get Login Form from provider details
+     *Utility Method to get Login Form from provider details
      */
 
-    function getLoginFormForProvider($provider) {
+    public function getLoginFormForProvider($provider) {
         return $provider[0]['loginForm'];
     }
 
     /*
-      Utility Method to parse and populate Login Form Data
+     *Utility Method to parse and populate Login Form Data
      */
 
-    function populateLoginFormForProvider($loginForm) {
+    public function populateLoginFormForProvider($loginForm) {
         Utils::logMessage(self::fq_name, "Login Form" . PHP_EOL);
         Utils::printKeyValue($loginForm);
         $rows = $loginForm['row'];
@@ -165,12 +162,12 @@ class Provider {
     }
 
     /*
-      This operation  internally invokes CURL utility to call refresh status API.
-      Params expected in input :
-      apiUrl, cobrandSessionToken, userSessionToken, query details like accountId.
+     *  This operation  internally invokes CURL utility to call refresh status API.
+     *  Params expected in input :
+     *  apiUrl, cobrandSessionToken, userSessionToken, query details like accountId.
      */
 
-    function getRefreshStatus($url, $cobSession, $userSession, $accountId) {
+    public function getRefreshStatus($url, $cobSession, $userSession, $accountId) {
         $request = $url . $accountId;
         $responseObj = CurlUtils::httpGet($request, $cobSession, $userSession);
         return $responseObj;
